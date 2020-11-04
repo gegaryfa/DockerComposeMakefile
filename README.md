@@ -1,4 +1,4 @@
-# DockerComposeMakefile
+# Docker Compose Makefile
 
 [![license](https://img.shields.io/github/license/gegaryfa/DockerComposeMakefile)](https://github.com/gegaryfa/DockerComposeMakefile/blob/master/LICENSE)
 ![GitHub stars](https://img.shields.io/github/stars/gegaryfa/DockerComposeMakefile)
