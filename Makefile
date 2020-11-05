@@ -1,11 +1,16 @@
-# import config.
-cnf ?= config.env
-include $(cnf)
-export $(shell sed 's/=.*//' $(cnf))
+# default values
+DOCKER_COMPOSE_COMMAND ?= docker-compose
+DOCKER_COMPOSE_FILE ?= docker-compose.yml
+DOCKER_COMPOSE_OVERRIDE_FILE ?= docker-compose.override.yml
+
+# import config with custom values (if any)).
+customConfig ?= config.env
+include $(customConfig)
+export $(shell sed 's/=.*//' $(customConfig))
 
 # HELP
 # This will output the help for each task
-.PHONY: help
+.PHONY: help run up build rebuild restart debug logs ps status stop rm down clean cleanall
 
 help: ## This help.
 	@echo -e "\e[92m$(APP_NAME)"
@@ -15,17 +20,17 @@ help: ## This help.
 
 # Make TASKS
 
-run: ## Start all or container services or just s=<ServiceName> in background
+run: ## Start all container services or just s=<ServiceName> in background
 	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up -d $(s)
 
-up: run ## Start all or container services or just s=<ServiceName> in background (Alias to run)
+up: run ## Start all container services or just s=<ServiceName> in background (Alias to run)
 
-build: run ## Start all or container services or just s=<ServiceName> in background (Alias to run)
+build: run ## Start all container services or just s=<ServiceName> in background (Alias to run)
 
-rebuild: ## Rebuild and start all or container services or just s=<ServiceName> in background
+rebuild: ## Rebuild and start all container services or just s=<ServiceName> in background
 	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up --force-recreate --build -d $(s)
 
-restart: ## Restart all or container services or just s=<ServiceName> in background
+restart: ## Restart all container services or just s=<ServiceName> in background
 	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) stop $(s)
 	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) up $(s) -d
 

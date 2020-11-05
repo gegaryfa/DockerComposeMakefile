@@ -20,9 +20,9 @@ to see all the possible actions.
 
 * [`GNU Make`](https://www.gnu.org/software/make/)
 
-### Installing/Usage
+### Usage
 
-Place the `Makefile` and `config.env` files on the same folder as your docker-compose.yml file. This `makefile` uses a `docker-compose.override.yml` file but ofcourse you can remove it or rename it[check the `config.env`]
+Place the `Makefile` and `config.env` files on the same folder as your docker-compose.yml file. This `makefile` uses a `docker-compose.override.yml` file but of course you can rename it[check the `config.env`]
 
 ## Sources
 Overview of docker-compose CLI: [Docker Compose](https://docs.docker.com/compose/reference/overview/)
