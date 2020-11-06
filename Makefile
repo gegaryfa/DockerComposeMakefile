@@ -26,10 +26,10 @@ run: ## Start all container services or just s=<ServiceName> in background
 up: run ## Start all container services or just s=<ServiceName> in background (Alias to run)
 
 build:  ## Build but don't start all container services or just s=<ServiceName> 
-	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up --no-start $(s) 
+	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build --parallel $(s) 
 
-rebuild: ## Rebuild but don't start all container services or just s=<ServiceName> in background
-	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up --no-start --force-recreate --build $(s) 
+rebuild: ## Rebuild but don't start all container services or just s=<ServiceName>
+	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build --parallel --no-cache $(s) 
 
 restart: ## Restart all container services or just s=<ServiceName> in background
 	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) stop $(s)
@@ -44,7 +44,13 @@ logs: ## Show logs for all or just s=<ServiceName> container services
 ps: ## Show status of containers
 	@$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) ps
 
-status: ps ## Show status of containers (Alias to ps)	
+status: ps ## Show status of containers (Alias to ps)
+
+scale: ## Scale s=<ServiceName> to n=<NumberOfInstances>
+	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) up -d --no-recreate --scale $(s)=$(n)
+
+shell: ## Open a shell(bash) in the given container c=<ContainerName>
+	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) exec $(c) /bin/bash
 
 stop: ## Stop all or just s=<ServiceName> container services
 	$(DOCKER_COMPOSE_COMMAND) stop $(s)
