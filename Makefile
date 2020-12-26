@@ -25,11 +25,14 @@ run: ## Start all container services or just s=<ServiceName> in background
 
 up: run ## Start all container services or just s=<ServiceName> in background (Alias to run)
 
-build:  ## Build but don't start all container services or just s=<ServiceName> 
-	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build --parallel $(s) 
+build:  ## Build but don't start all container services or just s=<ServiceName>
+	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build --parallel $(s)
 
 rebuild: ## Rebuild but don't start all container services or just s=<ServiceName>
-	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build --parallel --no-cache $(s) 
+	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) build --parallel --no-cache $(s)
+
+rerun: ## Rebuild and start all or container services or just s=<ServiceName> in background
+	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) -f $(DOCKER_COMPOSE_OVERRIDE_FILE) up --force-recreate --build -d $(s)
 
 restart: ## Restart all container services or just s=<ServiceName> in background
 	$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE) stop $(s)
@@ -71,4 +74,4 @@ cleanall: confirmation ## Remove all running containers, volumes. Also removes a
 
 ################################## Helpers ##############################
 confirmation:
-	@( read -p "Are you sure?!? [y/N]: " sure && case "$$sure" in [yY]) true;; *) false;; esac ) 
+	@( read -p "Are you sure?!? [y/N]: " sure && case "$$sure" in [yY]) true;; *) false;; esac )
